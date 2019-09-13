@@ -81,6 +81,34 @@ def test_ShuffleSplit(toy_data):
     
 
 
+
+
+
+
+
+
+
+
+
+
+
+def test_PredifineKFold():
+  
+  render = Reader(line_format='user item rating', sep=' ', skip_lines=3,
+    rating_scale=(1, 5))
+    
+  content_dir = os.path.dirname(os.path.realpath(__file__))
+  folds_files = [(current_dir + '/custom_train',
+    current_dir + '/custom_test')]
+    
+  data = Dataset.load_from_folds(folds_files=folds_files, reader=reader)
+  
+  pkf = PredefinedKFold()
+  trainset, test = next(pkf.split(data))
+  assert trainset.n_ratings == 6
+  assert len(testset) == 3
+
+
 def test_get_cv():
   
   get_cv(None)
